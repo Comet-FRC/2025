@@ -48,8 +48,8 @@ public final class Constants {
 
     public static final class Swerve {
         // required accuracy to consider turret accurate to shoot a note
-        public static final double TURRET_ACCURACY_REQUIREMENT = 2.5;
         // gyro config
+        public static final double maxSpeed = 9;
         public static final double GYRO_OFFSET = 0;
         public static final int PIGEON_ID = 51;
         public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW- (DO NOT USE, ENABLES ROBOT-CENTRIC)
@@ -170,7 +170,7 @@ public final class Constants {
             public static final int DRIVE_MOTOR_ID = 3;
             public static final int ANGLE_MOTOR_ID = 13;
             public static final int CANCODER_ID = 23;
-            
+
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(138.87); //NEED TO CHANGE
 
             public static final SwerveModuleConstants SWERVE_MODULE_CONSTANTS = new SwerveModuleConstants(
