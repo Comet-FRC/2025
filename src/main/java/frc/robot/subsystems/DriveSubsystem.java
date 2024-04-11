@@ -99,12 +99,12 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void resetOdometry(Pose2d pose) {
     mOdometry.resetPosition(
-        m_gyro.getRotation2d(),
+        mGyro.getRotation2d(),
         new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
+          mFrontLeft.getPosition(),
+          mFrontRight.getPosition(),
+          mBackLeft.getPosition(),
+          mBackRight.getPosition()
         },
         pose);
   }
@@ -123,15 +123,15 @@ public class DriveSubsystem extends SubsystemBase {
             ChassisSpeeds.discretize(
                 fieldRelative
                     ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, rot, m_gyro.getRotation2d())
+                        xSpeed, ySpeed, rot, mGyro.getRotation2d())
                     : new ChassisSpeeds(xSpeed, ySpeed, rot),
                 DriveConstants.kDrivePeriod));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+    mFrontLeft.setDesiredState(swerveModuleStates[0]);
+    mFrontRight.setDesiredState(swerveModuleStates[1]);
+    mBackLeft.setDesiredState(swerveModuleStates[2]);
+    mBackRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /**
@@ -142,23 +142,23 @@ public class DriveSubsystem extends SubsystemBase {
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(desiredStates[0]);
-    m_frontRight.setDesiredState(desiredStates[1]);
-    m_rearLeft.setDesiredState(desiredStates[2]);
-    m_rearRight.setDesiredState(desiredStates[3]);
+    mFrontLeft.setDesiredState(desiredStates[0]);
+    mFrontRight.setDesiredState(desiredStates[1]);
+    mBackLeft.setDesiredState(desiredStates[2]);
+    mBackRight.setDesiredState(desiredStates[3]);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
-    m_frontLeft.resetEncoders();
-    m_rearLeft.resetEncoders();
-    m_frontRight.resetEncoders();
-    m_rearRight.resetEncoders();
+    mFrontLeft.resetEncoders();
+    mBackLeft.resetEncoders();
+    mFrontRight.resetEncoders();
+    mBackRight.resetEncoders();
   }
 
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
-    m_gyro.reset();
+    mGyro.reset();
   }
 
   /**
@@ -167,7 +167,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the robot's heading in degrees, from -180 to 180
    */
   public double getHeading() {
-    return m_gyro.getRotation2d().getDegrees();
+    return mGyro.getRotation2d().getDegrees();
   }
 
   /**
@@ -176,7 +176,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return mGyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
   
