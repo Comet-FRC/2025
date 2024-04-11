@@ -51,6 +51,7 @@ public class SwerveModule {
       int[] turningEncoderChannels,
       boolean driveEncoderReversed,
       boolean turningEncoderReversed) {
+        
     m_driveMotor = new Spark(driveMotorChannel);
     m_turningMotor = new Spark(turningMotorChannel);
 

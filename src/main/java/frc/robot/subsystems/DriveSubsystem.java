@@ -16,7 +16,7 @@ import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   // Robot swerve modules
-  private final SwerveModule m_frontLeft =
+  private final SwerveModule mFrontLeft =
       new SwerveModule(
           DriveConstants.kFrontLeftDriveMotorPort,
           DriveConstants.kFrontLeftTurningMotorPort,
@@ -25,7 +25,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontLeftDriveEncoderReversed,
           DriveConstants.kFrontLeftTurningEncoderReversed);
 
-  private final SwerveModule m_rearLeft =
+  private final SwerveModule mBackLeft =
       new SwerveModule(
           DriveConstants.kRearLeftDriveMotorPort,
           DriveConstants.kRearLeftTurningMotorPort,
@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearLeftDriveEncoderReversed,
           DriveConstants.kRearLeftTurningEncoderReversed);
 
-  private final SwerveModule m_frontRight =
+  private final SwerveModule mFrontRight =
       new SwerveModule(
           DriveConstants.kFrontRightDriveMotorPort,
           DriveConstants.kFrontRightTurningMotorPort,
@@ -43,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kFrontRightDriveEncoderReversed,
           DriveConstants.kFrontRightTurningEncoderReversed);
 
-  private final SwerveModule m_rearRight =
+  private final SwerveModule mBackRight =
       new SwerveModule(
           DriveConstants.kRearRightDriveMotorPort,
           DriveConstants.kRearRightTurningMotorPort,
@@ -53,18 +53,18 @@ public class DriveSubsystem extends SubsystemBase {
           DriveConstants.kRearRightTurningEncoderReversed);
 
   // The gyro sensor
-  private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+  private final ADXRS450_Gyro mGyro = new ADXRS450_Gyro();
 
   // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry =
+  SwerveDriveOdometry mOdometry =
       new SwerveDriveOdometry(
           DriveConstants.kDriveKinematics,
-          m_gyro.getRotation2d(),
+          mGyro.getRotation2d(),
           new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
+            mFrontLeft.getPosition(),
+            mFrontRight.getPosition(),
+            mBackLeft.getPosition(),
+            mBackRight.getPosition()
           });
 
   /** Creates a new DriveSubsystem. */
@@ -73,13 +73,13 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
-        m_gyro.getRotation2d(),
+    mOdometry.update(
+        mGyro.getRotation2d(),
         new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
+          mFrontLeft.getPosition(),
+          mFrontRight.getPosition(),
+          mBackLeft.getPosition(),
+          mBackRight.getPosition()
         });
   }
 
@@ -89,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return mOdometry.getPoseMeters();
   }
 
   /**
@@ -98,7 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(
+    mOdometry.resetPosition(
         m_gyro.getRotation2d(),
         new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
@@ -178,4 +178,6 @@ public class DriveSubsystem extends SubsystemBase {
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
+
+  
 }
