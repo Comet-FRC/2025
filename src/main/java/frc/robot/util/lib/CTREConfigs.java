@@ -4,6 +4,10 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import frc.robot.Constants;
 
+//
+//DO NOT TOUCH UNLESS EXPLICIT PERMISSION
+//
+
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig;
     public TalonFXConfiguration swerveDriveFXConfig;

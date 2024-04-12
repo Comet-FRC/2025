@@ -2,9 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,10 +15,8 @@ import frc.robot.Constants.Limelight;
 
 public class Swerve extends SubsystemBase {
     private final SwerveDriveOdometry swerveOdometry;
-    private final SwerveDrivePoseEstimator fusedPoseEstimator;
     private final SwerveModule[] swerveMods;
     public final Pigeon2 gyro;
-    private double turretError;
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.PIGEON_ID); //WIP
@@ -49,18 +44,6 @@ public class Swerve extends SubsystemBase {
                 getModulePositions()
         );
 
-        
-
-
-        fusedPoseEstimator = new SwerveDrivePoseEstimator(
-                Constants.Swerve.SWERVE_KINEMATICS,
-                getHeading(), getModulePositions(),
-                getPose(),
-                VecBuilder.fill(0.2, 0.2, Units.degreesToRadians(2.0)),
-                VecBuilder.fill(0.6, 0.6, Units.degreesToRadians(360.0))
-        );
-
-        turretError = 0.0;
     }
 
     @Override
@@ -115,9 +98,7 @@ public class Swerve extends SubsystemBase {
         return swerveOdometry.getPoseMeters();
     }
 
-    public Pose2d getFusedPoseEstimator(){
-        return fusedPoseEstimator.getEstimatedPosition();
-    }
+    
 
     
 
@@ -129,16 +110,6 @@ public class Swerve extends SubsystemBase {
         setOdometry(new Pose2d());
     }
 
-    public void setFusedPoseEstimator(Pose2d newPose){
-        fusedPoseEstimator.resetPosition(getHeading(), getModulePositions(), newPose);
-        setOdometry(newPose);
-    }
-
-    public void resetFusedPose(){
-        setFusedPoseEstimator(new Pose2d());
-    }
-
-    
 
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];

@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -10,8 +9,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.util.lib.COTSFalconSwerveConstants;
 import frc.robot.util.lib.SwerveModuleConstants;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+
 
 public final class Constants {
     public static final double STICK_DEADBAND = 0.1;
@@ -30,9 +28,6 @@ public final class Constants {
       
     }
 
-    public static final class Elevator {
-    
-    }
 
     public static final class Intake {
         
@@ -47,7 +42,7 @@ public final class Constants {
     }
 
     public static final class Swerve {
-        // required accuracy to consider turret accurate to shoot a note
+        public static final double inputDeadband = 0.1;
         // gyro config
         public static final double maxSpeed = 9;
         public static final double GYRO_OFFSET = 0;
@@ -67,7 +62,6 @@ public final class Constants {
         public static final double CENTER_TO_WHEEL = Math
                 .sqrt(Math.pow(WHEEL_BASE / 2.0, 2) + Math.pow(TRACK_WIDTH / 2.0, 2));
         public static final double WHEEL_CIRCUMFERENCE = CHOSEN_MODULE.wheelCircumference;
-
         /*
          * Swerve Kinematics
          * No need to ever change this unless you are not doing a traditional
@@ -79,19 +73,14 @@ public final class Constants {
                 new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
                 new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0));
 
-        /* Swerve Voltage Compensation */
+        
         public static final double VOLTAGE_COMP = 12.0;
-
-        /* Module Gear Ratios */
         public static final double DRIVE_GEAR_RATIO = CHOSEN_MODULE.driveGearRatio;
         public static final double ANGLE_GEAR_RATIO = CHOSEN_MODULE.angleGearRatio;
-
-        /* Motor Inverts */
         public static final boolean ANGLE_MOTOR_INVERT = CHOSEN_MODULE.angleMotorInvert;
         public static final boolean DRIVE_MOTOR_INVERT = CHOSEN_MODULE.driveMotorInvert;
-
-        /* Angle Encoder Invert */
         public static final SensorDirectionValue CANCODER_SENSOR_DIRECTION = CHOSEN_MODULE.canCoderInvert;
+
 
         /* Swerve Current Limiting */
         public static final int ANGLE_CONTINUOUS_SUPPLY_CURRENT_LIMIT = 25;
@@ -103,7 +92,6 @@ public final class Constants {
         public static final int DRIVE_PEAK_SUPPLY_CURRENT_LIMIT = 60;
         public static final double DRIVE_PEAK_SUPPLY_CURRENT_DURATION = 0.1;
         public static final boolean DRIVE_ENABLE_SUPPLY_CURRENT_LIMIT = true;
-
         /*
          * These values are used by the drive falcon to ramp in open loop and closed
          * loop driving.
@@ -111,6 +99,7 @@ public final class Constants {
          */
         public static final double OPEN_LOOP_RAMP = 0.25;
         public static final double CLOSED_LOOP_RAMP = 0.0;
+
 
         /* Angle Motor PID Values */
         public static final double ANGLE_P = CHOSEN_MODULE.angleKP;
@@ -132,7 +121,9 @@ public final class Constants {
         public static final double DRIVE_V = (2.6686 / 12);
         public static final double DRIVE_A = (0.34757 / 12);
 
-        /* Drive Motor Conversion Factors */
+        /* Drive Motor Conversion Factors 
+         * DO NOT TOUCH
+        */
         public static final double DRIVE_CONVERSION_POSITION_FACTOR = WHEEL_CIRCUMFERENCE / DRIVE_GEAR_RATIO;
         public static final double DRIVE_CONVERSION_VELOCITY_FACTOR = DRIVE_CONVERSION_POSITION_FACTOR / 60.0;
         public static final double ANGLE_CONVERSION_FACTOR = 360.0 / ANGLE_GEAR_RATIO;
@@ -149,7 +140,12 @@ public final class Constants {
         public static final IdleMode ANGLE_NEUTRAL_MODE = IdleMode.kCoast;
         public static final IdleMode DRIVE_NEUTRAL_MODE = IdleMode.kBrake;
 
+
+
+
+
         /* Module Specific Constants */
+
         /* Front Left Module - Module 0 */
         public static final class Mod3 {
 
@@ -157,7 +153,7 @@ public final class Constants {
             public static final int ANGLE_MOTOR_ID = 14;
             public static final int CANCODER_ID = 24;
 
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(226.05); //NEED TO CHANGE
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(226.05); //TODO: NEED TO CHANGE
 
             public static final SwerveModuleConstants SWERVE_MODULE_CONSTANTS = new SwerveModuleConstants(
                     DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
@@ -171,7 +167,7 @@ public final class Constants {
             public static final int ANGLE_MOTOR_ID = 13;
             public static final int CANCODER_ID = 23;
 
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(138.87); //NEED TO CHANGE
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(138.87); //TODO: NEED TO CHANGE
 
             public static final SwerveModuleConstants SWERVE_MODULE_CONSTANTS = new SwerveModuleConstants(
                     DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
@@ -183,7 +179,7 @@ public final class Constants {
             public static final int ANGLE_MOTOR_ID = 11;
             public static final int CANCODER_ID = 21;
 
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(300.32); //NEED TO CHANGE
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(300.32); //TODO: NEED TO CHANGE
 
             public static final SwerveModuleConstants SWERVE_MODULE_CONSTANTS = new SwerveModuleConstants(
                     DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
@@ -195,7 +191,7 @@ public final class Constants {
             public static final int ANGLE_MOTOR_ID = 12;
             public static final int CANCODER_ID = 22;
 
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(168.31); //NEED TO CHANGE
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(168.31); //TODO: NEED TO CHANGE
 
             public static final SwerveModuleConstants SWERVE_MODULE_CONSTANTS = new SwerveModuleConstants(
                     DRIVE_MOTOR_ID, ANGLE_MOTOR_ID, CANCODER_ID, ANGLE_OFFSET);
