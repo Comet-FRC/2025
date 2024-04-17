@@ -22,7 +22,7 @@ package frc.robot;
      * 
      * Buttons: 
      * A: 
-     * B: 
+     * B: Used for setting whether the robot will be fieldRelative.
      * X: 
      * Y: 
      */

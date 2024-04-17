@@ -12,37 +12,22 @@ import frc.robot.util.lib.SwerveModuleConstants;
 
 
 public final class Constants {
-    public static final double STICK_DEADBAND = 0.1;
 
     public static final class Auto {
         // pid values for pathplanner
-        public static final double AUTO_DRIVE_P = 1.5;
+        public static final double AUTO_DRIVE_P = 0.0;
         public static final double AUTO_DRIVE_I = 0.0;
         public static final double AUTO_DRIVE_D = 0.0;
-        public static final double AUTO_ANGLE_P = 1.0;
+        public static final double AUTO_ANGLE_P = 0.0;
         public static final double AUTO_ANGLE_I = 0.0;
         public static final double AUTO_ANGLE_D = 0.0;
     }
 
-    public static final class Angler {
-      
-    }
-
-
-    public static final class Intake {
-        
-    }
-
-    public static final class Limelight {
-        
-    }
-
-    public static final class Shooter {
-      
-    }
+    
 
     public static final class Swerve {
         public static final double inputDeadband = 0.1;
+
         // gyro config
         public static final double maxSpeed = 9;
         public static final double GYRO_OFFSET = 0;
@@ -56,12 +41,17 @@ public final class Constants {
         public static final COTSFalconSwerveConstants CHOSEN_MODULE = COTSFalconSwerveConstants
                 .SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L3_PLUS);
 
+
+
         /* Drivetrain Constants */
         public static final double TRACK_WIDTH = Units.inchesToMeters(18.375);
         public static final double WHEEL_BASE = Units.inchesToMeters(18.375);
         public static final double CENTER_TO_WHEEL = Math
                 .sqrt(Math.pow(WHEEL_BASE / 2.0, 2) + Math.pow(TRACK_WIDTH / 2.0, 2));
         public static final double WHEEL_CIRCUMFERENCE = CHOSEN_MODULE.wheelCircumference;
+
+
+
         /*
          * Swerve Kinematics
          * No need to ever change this unless you are not doing a traditional
@@ -100,7 +90,6 @@ public final class Constants {
         public static final double OPEN_LOOP_RAMP = 0.25;
         public static final double CLOSED_LOOP_RAMP = 0.0;
 
-
         /* Angle Motor PID Values */
         public static final double ANGLE_P = CHOSEN_MODULE.angleKP;
         public static final double ANGLE_I = CHOSEN_MODULE.angleKI;
@@ -108,7 +97,7 @@ public final class Constants {
         public static final double ANGLE_F = CHOSEN_MODULE.angleKF;
 
         /* Drive Motor PID Values */
-        public static final double DRIVE_P = 0.05;
+        public static final double DRIVE_P = 0.0;
         public static final double DRIVE_I = 0.0;
         public static final double DRIVE_D = 0.0;
         public static final double DRIVE_F = 0.0;
@@ -117,9 +106,13 @@ public final class Constants {
          * Drive Motor Characterization Values
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE
          */
-        public static final double DRIVE_S = (0.16861 / 12);
-        public static final double DRIVE_V = (2.6686 / 12);
-        public static final double DRIVE_A = (0.34757 / 12);
+        public static final double DRIVE_S = 0.0;
+        public static final double DRIVE_V = 0.0;
+        public static final double DRIVE_A = 0.0;
+        /* Swerve Profiling Values */
+        /** Meters per Second */
+        public static final double MAX_SPEED = 4.671;
+        public static final double MAX_ACCEL = 5.5;
 
         /* Drive Motor Conversion Factors 
          * DO NOT TOUCH
@@ -128,10 +121,7 @@ public final class Constants {
         public static final double DRIVE_CONVERSION_VELOCITY_FACTOR = DRIVE_CONVERSION_POSITION_FACTOR / 60.0;
         public static final double ANGLE_CONVERSION_FACTOR = 360.0 / ANGLE_GEAR_RATIO;
 
-        /* Swerve Profiling Values */
-        /** Meters per Second */
-        public static final double MAX_SPEED = 4.671;
-        public static final double MAX_ACCEL = 5.5;
+        
 
         /** Radians per Second */
         public static final double MAX_ANGULAR_VELOCITY = 10.0;

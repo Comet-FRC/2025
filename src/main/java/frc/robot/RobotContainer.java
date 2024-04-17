@@ -2,16 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.*;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.*;
-import java.util.function.BooleanSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -72,17 +66,7 @@ public class RobotContainer {
     }
     
 
-    public void printValues() {
-        // FOR DEBUGGING
-        SmartDashboard.putData("Scheduled Commands", CommandScheduler.getInstance());
-
-        // robot position
-        SmartDashboard.putNumber("Robot Yaw", swerve.getYaw());
-        SmartDashboard.putNumber("Robot Pitch", swerve.getPitch());
-        SmartDashboard.putNumber("Robot Roll", swerve.getRoll());
-        SmartDashboard.putData("Swerve Command", swerve);
-
-    }
+    
 
 
 
