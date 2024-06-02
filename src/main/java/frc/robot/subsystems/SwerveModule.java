@@ -24,7 +24,7 @@ public class SwerveModule {
     //MOTOR AND ENCODER DECLARATION
     private TalonFX angleMotor;
     private TalonFX driveMotor;
-    private CANcoder angleEncoder;
+    public CANcoder angleEncoder;
 
     //Basically a way of doing PID with a drivetrain but does not rely on feedback from encoders/CANCoders to calculate drive
     private final SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(Constants.Swerve.DRIVE_S, Constants.Swerve.DRIVE_V, Constants.Swerve.DRIVE_A);
