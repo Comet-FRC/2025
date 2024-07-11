@@ -58,4 +58,5 @@ public final class CTREConfigs {
         sensorConfigs.withSensorDirection(Constants.Swerve.CANCODER_SENSOR_DIRECTION);
         swerveCanCoderConfig.withMagnetSensor(sensorConfigs);
     }
+
 }

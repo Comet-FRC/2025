@@ -42,7 +42,11 @@ public class SwerveModule {
     public SwerveModule(int ModuleNumber, SwerveModuleConstants moduleConstants) 
     {
         this.moduleNumber = moduleNumber;
-        this.angleOffset = angleOffset;
+        this.angleOffset = moduleConstants.angleOffset;
+
+        //Angle Motor
+        angleMotor = new TalonFX(moduleConstants.angleMotorID);
+        angleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
 
         //Angle Encoder Config
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
@@ -52,6 +56,9 @@ public class SwerveModule {
         driveMotor = new TalonFX(moduleConstants.driveMotorID);
         driveMotor.getConfigurator().apply(Robot.ctreConfigs.swerveDriveFXConfig);
         driveMotor.getConfigurator().setPosition(0.0);
+
+        resetToAbsolute();
+
     }
     
     /**
@@ -117,8 +124,12 @@ public class SwerveModule {
      * This method can be thought as a way to align the wheels on the swerve drive to an absolute position.
      */
     public void resetToAbsolute(){
-        double absolutePosition = getCANcoder().getRotations() - angleOffset.getRotations(); //current angle - offset angle
-        angleMotor.setPosition(absolutePosition); //sets the angle motor to that position
+        double absolutePosition = Conversions.degreesToTalon(waitForCANcoder().getDegrees() - angleOffset.getDegrees(), Constants.Swerve.ANGLE_GEAR_RATIO);
+        angleMotor.setPosition(absolutePosition);
     }
     
+    private Rotation2d waitForCANcoder(){
+        /* wait for up to 250ms for a new CANcoder position */
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().waitForUpdate(250).getValue());
+    }
 }

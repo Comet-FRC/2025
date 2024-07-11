@@ -12,11 +12,11 @@ import frc.robot.util.lib.CTREConfigs;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static CTREConfigs ctreConfigs;
-  
   private RobotContainer m_robotContainer;
 
   @Override
   public void robotInit() {
+    ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
   }
 

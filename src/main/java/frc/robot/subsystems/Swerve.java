@@ -1,8 +1,7 @@
 //CREATED USING A TEMPLATE FROM https://github.com/dirtbikerxz/BaseTalonFXSwerve
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
-import com.ctre.phoenix6.hardware.Pigeon2;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathHolonomic;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -14,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -27,7 +27,8 @@ public class Swerve extends SubsystemBase {
                                                     // Primarily used for autonomous.
   private final SwerveModule[] swerveMods; // Array to hold the modules of the swerve; makes it easier to apply methods
                                            // as we can use loops.
-  public final Pigeon2 gyro; // Our gyro. Used for measuring rotation and heading.
+    private final static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+ // Our gyro. Used for measuring rotation and heading.
   private Field2d field;
 
 
@@ -42,11 +43,6 @@ public class Swerve extends SubsystemBase {
       m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
   public Swerve() {
-    // Gyro Configuration; We implement the Pigeon and configure/apply settings into
-    // the Pigeon as well as zeroing it.
-    gyro = new Pigeon2(Constants.Swerve.PIGEON_ID); // Not decided what Gyro we will use yet.
-    gyro.getConfigurator().apply(new Pigeon2Configuration());
-    gyro.setYaw(0);
 
     // Quick way for us to apply the settings of each module, while keeping ID's and
     // angle offsets specific to each one.
@@ -67,7 +63,7 @@ public class Swerve extends SubsystemBase {
 
     // Uses kinematics, gyro, and module positions. Only time this would change is
     // if we are using a different gyro.
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.SWERVE_KINEMATICS, getHeading(),
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.SWERVE_KINEMATICS, gyro.getRotation2d(),
         getModulePositions());
 
 
@@ -175,7 +171,7 @@ public class Swerve extends SubsystemBase {
 
 
   public void resetOdometry(Pose2d pose){
-    swerveOdometry.resetPosition(Rotation2d.fromDegrees(gyro.getYaw().getValue()), new SwerveModulePosition[] {
+    swerveOdometry.resetPosition(Rotation2d.fromDegrees(gyro.getAngle()), new SwerveModulePosition[] {
       swerveMods[0].getPosition(),
       swerveMods[1].getPosition(),
       swerveMods[2].getPosition(),
@@ -237,7 +233,7 @@ public class Swerve extends SubsystemBase {
   // If you need a reminder of Yaw, Pitch, and Roll this website does a good job:
   // https://automaticaddison.com/yaw-pitch-and-roll-diagrams-using-2d-coordinate-systems/#:~:text=The%20robot%20turns%20slightly%20to,z%2Daxis%20is%20yaw%20rotation.
   public Rotation2d getGyroYaw() {
-    return Rotation2d.fromDegrees(gyro.getYaw().getValue());
+    return Rotation2d.fromDegrees(gyro.getAngle());
   }
 
   public Command followPathCommand(String pathName) {

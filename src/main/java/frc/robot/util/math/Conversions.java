@@ -84,4 +84,16 @@ public class Conversions {
 
   }
 
+
+  /**
+     * @param degrees Mechanism Position: (in Degrees)
+     * @param gearRatio Gear Ratio between Motor and Mechanism
+     * @return Motor Rotation: (in Rotations)
+     */
+    public static double degreesToTalon(double mechDeg, double gearRatio) {
+      double motorDeg = mechDeg * gearRatio;
+      double motorRotations = motorDeg / 360.0;
+      return motorRotations;
+  } 
+
 }
