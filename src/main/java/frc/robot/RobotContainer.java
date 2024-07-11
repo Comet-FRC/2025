@@ -1,5 +1,10 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 
 
@@ -26,6 +31,9 @@ public class RobotContainer {
      
 
     public final static CommandXboxController opXbox = new CommandXboxController(1);
+
+    private static SendableChooser<Command> autoChooser;
+ 
    
 
 
@@ -52,6 +60,12 @@ public class RobotContainer {
 
         
         configureButtonBindings();
+
+
+        autoChooser = AutoBuilder.buildAutoChooser();
+
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     
@@ -73,8 +87,11 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand() {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'getAutonomousCommand'");
+        return autoChooser.getSelected();
+
+        //For single path following
+        //return AutoBuilder.followPathCommand(path);
+
     }
 
    
