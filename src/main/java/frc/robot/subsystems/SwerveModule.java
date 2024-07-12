@@ -41,7 +41,7 @@ public class SwerveModule {
 
     public SwerveModule(int ModuleNumber, SwerveModuleConstants moduleConstants) 
     {
-        this.moduleNumber = moduleNumber;
+        this.moduleNumber = ModuleNumber;
         this.angleOffset = moduleConstants.angleOffset;
 
         //Angle Motor

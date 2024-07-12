@@ -27,10 +27,12 @@ public class Swerve extends SubsystemBase {
                                                     // Primarily used for autonomous.
   private final SwerveModule[] swerveMods; // Array to hold the modules of the swerve; makes it easier to apply methods
                                            // as we can use loops.
-    private final static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
  // Our gyro. Used for measuring rotation and heading.
-  private Field2d field;
+  private final static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
+  private final Field2d field = new Field2d();
+
+  
 
   // Locations for the swerve drive modules relative to the robot center.
   Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
@@ -43,16 +45,17 @@ public class Swerve extends SubsystemBase {
       m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
 
   public Swerve() {
-
+    gyro.reset();
+    gyro.calibrate();
     // Quick way for us to apply the settings of each module, while keeping ID's and
     // angle offsets specific to each one.
+    
     swerveMods = new SwerveModule[] {
-        new SwerveModule(0, Constants.Swerve.Mod0.SWERVE_MODULE_CONSTANTS),
-        new SwerveModule(1, Constants.Swerve.Mod1.SWERVE_MODULE_CONSTANTS),
-        new SwerveModule(2, Constants.Swerve.Mod2.SWERVE_MODULE_CONSTANTS),
-        new SwerveModule(3, Constants.Swerve.Mod3.SWERVE_MODULE_CONSTANTS)
-    };
-
+      new SwerveModule(0, Constants.Swerve.Mod0.constants),
+      new SwerveModule(1, Constants.Swerve.Mod1.constants),
+      new SwerveModule(2, Constants.Swerve.Mod2.constants),
+      new SwerveModule(3, Constants.Swerve.Mod3.constants)
+  };
     /*
      * By pausing init for a second before setting module offsets, we avoid a bug
      * with inverting motors.
@@ -63,8 +66,7 @@ public class Swerve extends SubsystemBase {
 
     // Uses kinematics, gyro, and module positions. Only time this would change is
     // if we are using a different gyro.
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.SWERVE_KINEMATICS, gyro.getRotation2d(),
-        getModulePositions());
+    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.SWERVE_KINEMATICS, gyro.getRotation2d(), getModulePositions());
 
 
     AutoBuilder.configureHolonomic(
@@ -194,10 +196,10 @@ public class Swerve extends SubsystemBase {
   private SwerveModulePosition[] getModulePositions() {
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
     for (SwerveModule mod : swerveMods) {
-      positions[mod.moduleNumber] = mod.getPosition();
+        positions[mod.moduleNumber] = mod.getPosition();
     }
     return positions;
-  }
+}
 
   /**
    * 
@@ -220,7 +222,7 @@ public class Swerve extends SubsystemBase {
   @Override
   public void periodic() {
     swerveOdometry.update(getGyroYaw(), getModulePositions());
-    field.setRobotPose(getPose());
+    field.setRobotPose(swerveOdometry.getPoseMeters());
     for (SwerveModule mod : swerveMods) {
 
       SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
